@@ -1,6 +1,8 @@
-// TODO: implement interfaces
+import {PersonDtoInterface} from '@/interfaces/PersonDtoInterface';
+import {StarshipDtoInterface} from '@/interfaces/StarshipDtoInterface';
+
 export interface StarWarsResourcesStateInterface {
-    person: any;
-    starship: any;
+    persons: PersonDtoInterface[] | [];
+    starships: StarshipDtoInterface[] | [];
     gameMode: string;
 }

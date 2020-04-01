@@ -2,7 +2,7 @@ import {StarWarsResourcesStateInterface} from '@/interfaces/StarWarsResourcesSta
 import {GameModes} from '@/enums/gameModes';
 
 export const state: StarWarsResourcesStateInterface = {
-    person: null,
-    starship: null,
+    persons: [],
+    starships: [],
     gameMode: GameModes.PEOPLE,
 };

@@ -19,6 +19,7 @@
     import AppButton from '@/components/global/AppButton.vue';
     import {GameModesDataInterface} from '@/interfaces/GameModesDataInterface';
     import {GameModes} from '@/enums/gameModes';
+    import {storeModuleNames} from '@/enums/storeModuleNames';
 
     @Component({
         name: 'ChooseResource',
@@ -30,7 +31,7 @@
             {value: GameModes.STARSHIPS, text: 'Starships'},
         ];
         public get gameMode(): string {
-            return this.$store.getters['starWarsResourcesModule/gameMode'];
+            return this.$store.getters[`${storeModuleNames.STAR_WARS_RESOURCES}/gameMode`];
         }
 
         public chooseBattleType(battleType: string) {
@@ -41,6 +42,7 @@
 
 <style lang="scss" scoped>
     .co-choose-resource {
+        padding-bottom: 30px;
 
         .title {
             color: $white;

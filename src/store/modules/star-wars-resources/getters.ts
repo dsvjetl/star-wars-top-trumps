@@ -1,11 +1,11 @@
 import {StarWarsResourcesStateInterface} from '@/interfaces/StarWarsResourcesStateInterface';
 
 export const getters = {
-    person(state: StarWarsResourcesStateInterface) {
-        return state.person;
+    persons(state: StarWarsResourcesStateInterface) {
+        return state.persons;
     },
-    starship(state: StarWarsResourcesStateInterface) {
-        return state.starship;
+    starships(state: StarWarsResourcesStateInterface) {
+        return state.starships;
     },
     gameMode(state: StarWarsResourcesStateInterface) {
         return state.gameMode;

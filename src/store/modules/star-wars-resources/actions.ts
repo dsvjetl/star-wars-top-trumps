@@ -1,16 +1,23 @@
 import {AxiosService} from '@/services/AxiosService';
 import {axiosUrls} from '@/axios/axiosUrls';
+import {getTwoRandomNumbers} from '@/helpers/getTwoRandomNumbers';
+import {PersonDtoInterface} from '@/interfaces/PersonDtoInterface';
+import {AxiosError, AxiosResponse} from 'axios';
 
 export const actions = {
-    async getPerson(context: any, personId: string) {
-        let person = null;
+    async getPersons({commit}: any, personId: string) {
+        let person1: any = null;
+        let person2: any = null;
+        const twoRandomNumbers: number[] = getTwoRandomNumbers();
 
         try {
-            person = await AxiosService.get<any>(axiosUrls.getPerson(personId));
+            person1 = await AxiosService.get(axiosUrls.getPersons(twoRandomNumbers[0].toString()));
+            person2 = await AxiosService.get(axiosUrls.getPersons(twoRandomNumbers[1].toString()));
         } catch (e) {
-            console.error(e);
+            return await Promise.reject(e);
         }
 
-        console.log(person);
+        commit('setPersons', [person1.data, person2.data]);
+        return Promise.resolve([person1, person2]);
     },
 };

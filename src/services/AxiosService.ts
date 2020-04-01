@@ -3,9 +3,9 @@ import {AxiosError, AxiosResponse} from 'axios';
 
 export class AxiosService {
 
-    public static get<T>(url: string): Promise<AxiosResponse<T> | AxiosError> {
+    public static get(url: string): Promise<AxiosResponse | AxiosError> {
         return axiosSwapi.get(url)
-            .then((response: AxiosResponse<T>) => {
+            .then((response: AxiosResponse) => {
                 return Promise.resolve(response);
             })
             .catch((error: AxiosError) => {

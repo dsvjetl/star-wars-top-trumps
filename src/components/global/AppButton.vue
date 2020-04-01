@@ -1,5 +1,8 @@
 <template>
-    <button class="co-app-button u-a3">
+    <button
+        class="co-app-button u-a3"
+        :class="{'is-circular': mode === 'circular'}"
+    >
         {{text}}
     </button>
 </template>
@@ -12,6 +15,7 @@
     })
     export default class AppButton extends Vue {
         @Prop({required: true}) public text!: string;
+        @Prop({required: false, default: 'default'}) public mode!: string;
     }
 </script>
 
@@ -35,6 +39,14 @@
             border: 1px solid $white;
             color: $black;
             pointer-events: none;
+        }
+
+        &.is-circular {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            padding: 20px;
+            text-align: center;
         }
     }
 </style>
