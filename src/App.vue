@@ -1,32 +1,51 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="co-app">
+        <AppHeader/>
+        <router-view/>
     </div>
-    <router-view/>
-  </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+    import {Vue, Component} from 'vue-property-decorator';
+    // @ts-ignore
+    import Bootstrap from 'bootstrap';
+    import AppHeader from '@/components/global/AppHeader.vue';
 
-#nav {
-  padding: 30px;
+    @Component({
+        name: 'App',
+        components: {AppHeader},
+    })
+    export default class App extends Vue {
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
     }
-  }
-}
+</script>
+
+<style lang="scss">
+    @import "~bootstrap/dist/css/bootstrap.min.css";
+    @import "assets/scss/style";
+
+    .co-app {
+        width: 100%;
+        height: 100vh;
+
+        &:before {
+            content: '';
+            position: fixed;
+            left: 0;
+            right: 0;
+            z-index: -1;
+            display: block;
+            background-image: url("assets/images/background-space.jpg");
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+            filter: blur(4px);
+            transform: scale(1.1);
+        }
+
+        h1 {
+            color: white;
+        }
+
+    }
 </style>
