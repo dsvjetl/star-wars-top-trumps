@@ -43,9 +43,5 @@
             transform: scale(1.1);
         }
 
-        h1 {
-            color: white;
-        }
-
     }
 </style>

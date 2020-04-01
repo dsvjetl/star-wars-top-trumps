@@ -1,6 +1,6 @@
 <template>
     <header class="app-header">
-        <h1>Star Wars Top Trumps</h1>
+        <h1 class="u-a1">Star Wars Top Trumps</h1>
     </header>
 </template>
 
