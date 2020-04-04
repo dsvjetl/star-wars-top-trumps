@@ -30,6 +30,7 @@
                     <BattleCard
                         :battleResource="battleResources[0]"
                         :gameMode="gameMode"
+                        :playerIndex="0"
                     />
                 </div>
                 <div class="player-playground">
@@ -37,6 +38,7 @@
                     <BattleCard
                         :battleResource="battleResources[1]"
                         :gameMode="gameMode"
+                        :playerIndex="1"
                     />
                 </div>
             </div>
@@ -53,6 +55,7 @@
     import {PersonDtoInterface} from '@/interfaces/PersonDtoInterface';
     import {StarshipDtoInterface} from '@/interfaces/StarshipDtoInterface';
     import {GameModes} from '@/enums/gameModes';
+    import {getNumberFromCommaSeparatedString} from '@/helpers/getNumberFromCommaSeparatedString';
 
     @Component({
         name: 'Battleground',
@@ -63,10 +66,6 @@
 
         public get gameMode(): string {
             return this.$store.getters[`${storeModuleNames.STAR_WARS_RESOURCES}/gameMode`];
-        }
-
-        public get showLoader() {
-            return this.fetching;
         }
 
         public get battleResources(): PersonDtoInterface[] | StarshipDtoInterface[] | [] {
@@ -92,7 +91,45 @@
             this.fetching = true;
             this.$store.dispatch(`${storeModuleNames.STAR_WARS_RESOURCES}/getPersons`).then(() => {
                 this.fetching = false;
+                this.chooseBattleType();
             });
+        }
+
+        public setWinnerIndex(winningAttributes: number[]) {
+            const validWinningAttributes: number[] =
+                winningAttributes.map((winningAttribute) => isNaN(winningAttribute) ? 0 : winningAttribute);
+
+            const winnerIndex = validWinningAttributes.indexOf(Math.max(...validWinningAttributes));
+            this.$store.commit(`${storeModuleNames.STAR_WARS_RESOURCES}/setWinnerIndex`, winnerIndex);
+        }
+
+        private chooseBattleType() {
+            if (this.gameMode === GameModes.PEOPLE) {
+                this.getPeopleWinner();
+            }
+            if (this.gameMode === GameModes.STARSHIPS) {
+                this.startStarshipsBattle();
+            }
+        }
+
+        private getPeopleWinner() {
+            const persons: PersonDtoInterface[] = this.battleResources as PersonDtoInterface[];
+            const winningAttributes: number[] = [
+                Number(getNumberFromCommaSeparatedString(persons[0].mass)),
+                Number(getNumberFromCommaSeparatedString(persons[1].mass)),
+            ];
+
+            this.setWinnerIndex(winningAttributes);
+        }
+
+        private startStarshipsBattle() {
+            const starships: StarshipDtoInterface[] = this.battleResources as StarshipDtoInterface[];
+            const winningAttributes: number[] = [
+                Number(getNumberFromCommaSeparatedString(starships[0].crew)),
+                Number(getNumberFromCommaSeparatedString(starships[1].crew)),
+            ];
+
+            this.setWinnerIndex(winningAttributes);
         }
 
     }

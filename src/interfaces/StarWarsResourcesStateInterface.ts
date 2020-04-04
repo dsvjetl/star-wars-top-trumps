@@ -5,4 +5,5 @@ export interface StarWarsResourcesStateInterface {
     persons: PersonDtoInterface[] | [];
     starships: StarshipDtoInterface[] | [];
     gameMode: string;
+    winnerIndex: number | null;
 }

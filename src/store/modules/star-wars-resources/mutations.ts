@@ -2,7 +2,6 @@ import {StarWarsResourcesStateInterface} from '@/interfaces/StarWarsResourcesSta
 import {PersonDtoInterface} from '@/interfaces/PersonDtoInterface';
 import {StarshipDtoInterface} from '@/interfaces/StarshipDtoInterface';
 
-// TODO: implement interfaces
 export const mutations = {
     setPersons(state: StarWarsResourcesStateInterface, persons: PersonDtoInterface[]) {
         state.persons = persons;
@@ -12,5 +11,8 @@ export const mutations = {
     },
     setGameMode(state: StarWarsResourcesStateInterface, gameMode: string) {
         state.gameMode = gameMode;
+    },
+    setWinnerIndex(state: StarWarsResourcesStateInterface, winnerIndex: number | null) {
+        state.winnerIndex = winnerIndex;
     },
 };

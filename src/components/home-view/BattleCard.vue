@@ -1,5 +1,11 @@
 <template>
-    <div class="co-battle-card card">
+    <div
+        class="co-battle-card card"
+        :class="[
+            {'is-winner': isWinnerState},
+            {'is-loser': isWinnerState === false}
+        ]"
+    >
 
         <div
             class="card-img-top"
@@ -40,6 +46,7 @@
     import {PersonDtoInterface} from '@/interfaces/PersonDtoInterface';
     import {StarshipDtoInterface} from '@/interfaces/StarshipDtoInterface';
     import {GameModes} from '@/enums/gameModes';
+    import {storeModuleNames} from '@/enums/storeModuleNames';
 
     @Component({
         name: 'BattleCard',
@@ -48,11 +55,41 @@
     export default class BattleCard extends Vue {
         @Prop({required: true}) public battleResource!: PersonDtoInterface | StarshipDtoInterface;
         @Prop({required: true, default: GameModes.PEOPLE}) public gameMode!: string;
+        @Prop({required: true}) public playerIndex!: number;
+
+        public isWinnerState: boolean | null = null;
+
+        public get winnerIndex(): number | null {
+            return this.$store.getters[`${storeModuleNames.STAR_WARS_RESOURCES}/winnerIndex`];
+        }
+
+        public get isWinner(): boolean {
+            return this.playerIndex === this.winnerIndex;
+        }
+
+        public mounted(): void {
+            this.setWinnerState();
+        }
+
+        private setWinnerState() {
+            setTimeout(() => {
+                this.isWinnerState = this.isWinner;
+            }, 2000);
+        }
     }
 </script>
 
 <style lang="scss" scoped>
     .co-battle-card {
+        transition: all 1s ease-in;
+
+        &.is-winner {
+            background-color: $yellow;
+        }
+
+        &.is-loser {
+            opacity: 0;
+        }
 
         .person-icon {
             width: 50px;
