@@ -26,7 +26,10 @@
                 key="card-container"
             >
                 <div class="player-playground">
-                    <h5 class="u-a3 player-title">Player 1</h5>
+                    <h5 class="u-a3 player-title">
+                        <span class="score">Score: {{player1Score}}</span>
+                        <span>Player 1</span>
+                    </h5>
                     <BattleCard
                         :battleResource="battleResources[0]"
                         :gameMode="gameMode"
@@ -34,7 +37,10 @@
                     />
                 </div>
                 <div class="player-playground">
-                    <h5 class="u-a3 player-title">Player 2</h5>
+                    <h5 class="u-a3 player-title">
+                        <span>Player 2</span>
+                        <span class="score">Score: {{player2Score}}</span>
+                    </h5>
                     <BattleCard
                         :battleResource="battleResources[1]"
                         :gameMode="gameMode"
@@ -87,6 +93,14 @@
             return this.$store.getters[`${storeModuleNames.STAR_WARS_RESOURCES}/starships`];
         }
 
+        public get player1Score(): number {
+            return this.$store.getters[`${storeModuleNames.PLAYERS}/player1Score`];
+        }
+
+        public get player2Score(): number {
+            return this.$store.getters[`${storeModuleNames.PLAYERS}/player2Score`];
+        }
+
         public fetchRandomPersons() {
             this.fetching = true;
             this.$store.dispatch(`${storeModuleNames.STAR_WARS_RESOURCES}/getPersons`).then(() => {
@@ -95,20 +109,12 @@
             });
         }
 
-        public setWinnerIndex(winningAttributes: number[]) {
-            const validWinningAttributes: number[] =
-                winningAttributes.map((winningAttribute) => isNaN(winningAttribute) ? 0 : winningAttribute);
-
-            const winnerIndex = validWinningAttributes.indexOf(Math.max(...validWinningAttributes));
-            this.$store.commit(`${storeModuleNames.STAR_WARS_RESOURCES}/setWinnerIndex`, winnerIndex);
-        }
-
         private chooseBattleType() {
             if (this.gameMode === GameModes.PEOPLE) {
                 this.getPeopleWinner();
             }
             if (this.gameMode === GameModes.STARSHIPS) {
-                this.startStarshipsBattle();
+                this.getStarshipsWinner();
             }
         }
 
@@ -122,7 +128,7 @@
             this.setWinnerIndex(winningAttributes);
         }
 
-        private startStarshipsBattle() {
+        private getStarshipsWinner() {
             const starships: StarshipDtoInterface[] = this.battleResources as StarshipDtoInterface[];
             const winningAttributes: number[] = [
                 Number(getNumberFromCommaSeparatedString(starships[0].crew)),
@@ -130,6 +136,15 @@
             ];
 
             this.setWinnerIndex(winningAttributes);
+        }
+
+        private setWinnerIndex(winningAttributes: number[]) {
+            const validWinningAttributes: number[] =
+                winningAttributes.map((winningAttribute) => isNaN(winningAttribute) ? 0 : winningAttribute);
+
+            const winnerIndex = validWinningAttributes.indexOf(Math.max(...validWinningAttributes));
+            this.$store.commit(`${storeModuleNames.STAR_WARS_RESOURCES}/setWinnerIndex`, winnerIndex);
+            this.$store.commit(`${storeModuleNames.PLAYERS}/incrementPlayer${winnerIndex + 1}Score`);
         }
 
     }
@@ -159,6 +174,12 @@
         .player-title {
             color: $white;
             text-align: center;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .score {
+            color: yellow;
         }
 
         .loading-container {

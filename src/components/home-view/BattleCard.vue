@@ -88,7 +88,8 @@
         }
 
         &.is-loser {
-            opacity: 0;
+            opacity: 0.6;
+            background-color: $red;
         }
 
         .person-icon {
