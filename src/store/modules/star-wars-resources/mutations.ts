@@ -6,7 +6,7 @@ export const mutations = {
     setPersons(state: StarWarsResourcesStateInterface, persons: PersonDtoInterface[]) {
         state.persons = persons;
     },
-    setStarship(state: StarWarsResourcesStateInterface, starships: StarshipDtoInterface[]) {
+    setStarships(state: StarWarsResourcesStateInterface, starships: StarshipDtoInterface[]) {
         state.starships = starships;
     },
     setGameMode(state: StarWarsResourcesStateInterface, gameMode: string) {
@@ -14,5 +14,9 @@ export const mutations = {
     },
     setWinnerIndex(state: StarWarsResourcesStateInterface, winnerIndex: number | null) {
         state.winnerIndex = winnerIndex;
+    },
+    resetPersonsAndStarships(state: StarWarsResourcesStateInterface) {
+        state.persons = [];
+        state.starships = [];
     },
 };

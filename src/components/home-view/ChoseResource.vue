@@ -30,12 +30,15 @@
             {value: GameModes.PEOPLE, text: 'People'},
             {value: GameModes.STARSHIPS, text: 'Starships'},
         ];
+
         public get gameMode(): string {
             return this.$store.getters[`${storeModuleNames.STAR_WARS_RESOURCES}/gameMode`];
         }
 
         public chooseBattleType(battleType: string) {
-            this.$store.commit('starWarsResourcesModule/setGameMode', battleType);
+            this.$store.commit(`${storeModuleNames.STAR_WARS_RESOURCES}/setGameMode`, battleType);
+            this.$store.commit(`${storeModuleNames.STAR_WARS_RESOURCES}/resetPersonsAndStarships`);
+            this.$store.commit(`${storeModuleNames.PLAYERS}/resetPlayerScores`);
         }
     }
 </script>

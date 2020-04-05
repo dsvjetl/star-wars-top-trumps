@@ -5,7 +5,7 @@
             <AppButton
                 text="Start battle"
                 mode="circular"
-                @click.native="fetchRandomPersons()"
+                @click.native="fetchResources()"
             />
         </div>
 
@@ -62,6 +62,9 @@
     import {StarshipDtoInterface} from '@/interfaces/StarshipDtoInterface';
     import {GameModes} from '@/enums/gameModes';
     import {getNumberFromCommaSeparatedString} from '@/helpers/getNumberFromCommaSeparatedString';
+    import {AxiosError} from 'axios';
+    import {eventBus} from '@/helpers/eventBus';
+    import {EventBusEventNames} from '@/enums/eventBusEventNames';
 
     @Component({
         name: 'Battleground',
@@ -101,12 +104,37 @@
             return this.$store.getters[`${storeModuleNames.PLAYERS}/player2Score`];
         }
 
-        public fetchRandomPersons() {
+        public fetchResources() {
+            const battleResourcesActionNames: {persons: string, starships: string} = {
+                persons: 'getPersons',
+                starships: 'getStarships',
+            };
+            let currentBattleResourceActionName: string = '';
+
+            if (this.gameMode === GameModes.PEOPLE) {
+                currentBattleResourceActionName = battleResourcesActionNames.persons;
+            }
+            if (this.gameMode === GameModes.STARSHIPS) {
+                currentBattleResourceActionName = battleResourcesActionNames.starships;
+            }
+
             this.fetching = true;
-            this.$store.dispatch(`${storeModuleNames.STAR_WARS_RESOURCES}/getPersons`).then(() => {
+            this.$store.dispatch(`${storeModuleNames.STAR_WARS_RESOURCES}/${currentBattleResourceActionName}`).then(() => {
                 this.fetching = false;
                 this.chooseBattleType();
+            }).catch((error: AxiosError) => {
+                this.$store.commit(`${storeModuleNames.STAR_WARS_RESOURCES}/resetPersonsAndStarships`);
+                this.fetching = false;
+                this.openModalForError(error);
             });
+        }
+
+        private openModalForError(error: AxiosError) {
+            const errorResponseRequest = error.response!.request;
+            const message = `Ooops... There has been an error: <a target="_blank" href="${errorResponseRequest.responseURL}">${errorResponseRequest.responseURL}</a>
+            has responded with status ${errorResponseRequest.status}. Please click on "Start battle" button again.`;
+
+            eventBus.$emit(EventBusEventNames.OPEN_MODAL, message);
         }
 
         private chooseBattleType() {

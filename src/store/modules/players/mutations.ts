@@ -7,7 +7,7 @@ export const mutations = {
     incrementPlayer2Score(state: PlayersStateInterface) {
         state.player2Score++;
     },
-    resetPlayers(state: PlayersStateInterface) {
+    resetPlayerScores(state: PlayersStateInterface) {
         state.player1Score = 0;
         state.player2Score = 0;
     },

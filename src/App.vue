@@ -2,6 +2,7 @@
     <div class="co-app">
         <AppHeader/>
         <router-view/>
+        <Modal/>
     </div>
 </template>
 
@@ -10,10 +11,11 @@
     // @ts-ignore
     import Bootstrap from 'bootstrap';
     import AppHeader from '@/components/global/AppHeader.vue';
+    import Modal from '@/components/global/Modal.vue';
 
     @Component({
         name: 'App',
-        components: {AppHeader},
+        components: {Modal, AppHeader},
     })
     export default class App extends Vue {
 
