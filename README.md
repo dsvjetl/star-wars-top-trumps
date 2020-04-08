@@ -1,5 +1,9 @@
 # star-wars-top-trumps
 
+## Requirements:
+- Node.js (~v12.4.1)
+- NPM (~v6.14.3)
+
 ## Project setup
 ```
 npm install
@@ -15,12 +19,7 @@ npm run serve
 npm run build
 ```
 
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Run your end-to-end tests
+### Run your end-to-end tests (Cypress - Chrome browser required)
 ```
 npm run test:e2e
 ```
@@ -29,6 +28,3 @@ npm run test:e2e
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
